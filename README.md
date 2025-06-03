@@ -1,22 +1,17 @@
 # README.md
 
-# Info de la materia: IS535 Bases de Datos
+# Info de la materia: SI2003-251, Bases de Datos, Universidad EAFIT
 **Estudiante(s):**  
-[Nombre del estudiante], [correo-eafit@eafit.edu.co]  
-*Nota: Por favor, reemplaza con el nombre y correo institucional del estudiante o estudiantes que trabajaron en el proyecto.*
+Juan Camilo Bolaños García, jcbolanosg@eafit.edu.co
 
 **Profesor:**  
-[Nombre del profesor], [correo-profesor@eafit.edu.co]  
-*Nota: Por favor, reemplaza con el nombre y correo institucional del profesor.*
+Edwin Nelson Montoya Munera, emontoya@eafit.edu.co
+
 
 # Sistema de Gestión Académica NODO
 
 ## 1. Breve descripción de la actividad
 El proyecto "Sistema de Gestión Académica NODO" es una aplicación diseñada para gestionar cursos, usuarios, tareas, foros y materiales en un entorno universitario. Utiliza una base de datos MySQL para almacenar la información y una interfaz en consola desarrollada en Python que permite a administradores, profesores y estudiantes interactuar con el sistema. El objetivo es facilitar la administración de cursos, la entrega de tareas, la participación en foros y la generación de reportes para el semestre actual (2025-1).
-
-### Usuarios de ejemplo inscritos para el semestre actual (2025-1)
-- **Estudiante**: Ana María Gómez, `ana.gomez@eafit.edu.co`. Inscrita en el curso "Matemáticas I" (ID_CURSO: 1) para el semestre 2025-1. Puede listar sus cursos, consultar materiales, entregar tareas y participar en foros.
-- **Profesor**: Carlos Andrés López, `carlos.lopez@eafit.edu.co`. Asignado como profesor del curso "Matemáticas I" (ID_CURSO: 1) para el semestre 2025-1. Puede gestionar materiales, crear foros, calificar tareas y listar alumnos.
 
 ### 1.1. Aspectos cumplidos o desarrollados de la actividad propuesta por el profesor
 - **Base de datos**: Implementada en MySQL con el archivo `proyecto_ddl.sql`, que crea la base de datos `NODO` y las tablas con integridad referencial (Usuarios, Curso, Tarea, Tarea_Entrega, Foro, Mensaje, Material, Pagos, interes_curso).
@@ -41,9 +36,6 @@ El proyecto "Sistema de Gestión Académica NODO" es una aplicación diseñada p
   - Interfaz de consola clara con menús de navegación.
 
 ### 1.2. Aspectos NO cumplidos o desarrollados
-- **Validación de fechas en foros**: La aplicación permite crear foros con fechas de finalización anteriores a la de creación, aunque se valida en la interfaz (esto podría mejorarse con una restricción CHECK en la base de datos).
-- **Subida real de archivos**: La subida de materiales y tareas es simulada (se almacenan nombres/URLs ficticias en la base de datos, no archivos físicos).
-- **Optimización de consultas**: Algunas consultas SQL podrían optimizarse para mejorar el rendimiento en bases de datos grandes (por ejemplo, índices adicionales).
 - **Interfaz gráfica**: La aplicación se desarrolló en modo consola, como se recomendó, pero no incluye una interfaz gráfica, lo que podría ser una limitación para usuarios menos técnicos.
 
 # 2. Información general de diseño de alto nivel, arquitectura, patrones, mejores prácticas utilizadas
@@ -79,7 +71,7 @@ El proyecto "Sistema de Gestión Académica NODO" es una aplicación diseñada p
      python App_Final.py
      ```
 - **Detalles del desarrollo**:
-  - Desarrollado en un entorno local usando un IDE como VSCode o PyCharm.
+  - Desarrollado en un entorno local usando un Visual Studio Code y MySQL Workbench.
   - Se utilizó un entorno virtual de Python para gestionar dependencias.
   - Las consultas SQL fueron probadas en MySQL Workbench antes de integrarlas en la aplicación.
 - **Detalles técnicos**:
@@ -129,7 +121,10 @@ El proyecto "Sistema de Gestión Académica NODO" es una aplicación diseñada p
   3. Instala dependencias: `pip install mysql-connector-python==8.0.33`.
   4. Ejecuta: `python App_Final.py`.
 - **Mini guía para el usuario**:
-  1. **Inicio de sesión**: Ingresa tu email y contraseña. Ejemplo: `ana.gomez@eafit.edu.co` / `studentpass1` para el estudiante Ana María Gómez, o `carlos.lopez@eafit.edu.co` / `professorpass1` para el profesor Carlos Andrés López.
+  1. **Inicio de sesión**: Ingresa tu email y contraseña. Ejemplo:
+- **Estudiante**: Ana María Gómez, `ana.gomez@eafit.edu.co`. Inscrita en el curso "Matemáticas I" (ID_CURSO: 1) para el semestre 2025-1. Puede listar sus cursos, consultar materiales, entregar tareas y participar en foros.
+- **Profesor**: Carlos Andrés López, `carlos.lopez@eafit.edu.co`. Asignado como profesor del curso "Matemáticas I" (ID_CURSO: 1) para el semestre 2025-1. Puede gestionar materiales, crear foros, calificar tareas y listar alumnos.
+- **Administrador**: Carlos Andrés López, `carlos.lopez@eafit.edu.co`. Asignado como profesor del curso "Matemáticas I" (ID_CURSO: 1) para el semestre 2025-1. Puede gestionar materiales, crear foros, calificar tareas y listar alumnos.
   2. **Administrador**:
      - Matricula estudiantes seleccionando su ID y el ID del curso.
      - Asigna profesores a cursos.
