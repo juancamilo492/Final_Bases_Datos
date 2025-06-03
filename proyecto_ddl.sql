@@ -1,8 +1,8 @@
-CREATE DATABASE NODO;
+CREATE DATABASE IF NOT EXISTS NODO;
 
 USE NODO;
 
-CREATE TABLE Usuarios (
+CREATE TABLE IF NOT EXISTS Usuarios (
     id_usuario INTEGER AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     n_documento VARCHAR(10) NOT NULL UNIQUE,
@@ -16,7 +16,7 @@ CREATE TABLE Usuarios (
     CHECK (rol = 'Profesor' OR (area_principal IS NULL AND area_alternativa IS NULL))
 );
 
-CREATE TABLE Curso (
+CREATE TABLE IF NOT EXISTS Curso (
     id_curso INTEGER AUTO_INCREMENT PRIMARY KEY,
     url VARCHAR(255) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE Curso (
         ON UPDATE CASCADE
 );
 
-CREATE TABLE Tarea (
+CREATE TABLE IF NOT EXISTS Tarea (
     id_tarea INTEGER AUTO_INCREMENT,
     id_curso INTEGER,
     nombre VARCHAR(100) NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE Tarea (
         ON UPDATE CASCADE
 );
 
-CREATE TABLE Tarea_Entrega (
+CREATE TABLE IF NOT EXISTS Tarea_Entrega (
     id_entrega INTEGER AUTO_INCREMENT,
     id_tarea INTEGER,
     id_curso INTEGER,
@@ -65,7 +65,7 @@ CREATE TABLE Tarea_Entrega (
         ON UPDATE CASCADE
 );
 
-CREATE TABLE Foro (
+CREATE TABLE IF NOT EXISTS Foro (
     id_foro INTEGER AUTO_INCREMENT,
     id_curso INTEGER,
     nombre VARCHAR(100) NOT NULL,
@@ -73,25 +73,26 @@ CREATE TABLE Foro (
     fecha_creacion DATE NOT NULL,
     fecha_fin DATE NOT NULL,
     PRIMARY KEY (id_foro, id_curso),
+    UNIQUE (id_foro), -- Added UNIQUE constraint to allow FK reference from Mensaje
     FOREIGN KEY (id_curso) REFERENCES Curso(id_curso)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
-CREATE TABLE Mensaje (
+CREATE TABLE IF NOT EXISTS Mensaje (
     id_mensaje INTEGER AUTO_INCREMENT,
-    id_foro INTEGER,
+    id_foro INTEGER NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     descripcion VARCHAR(255) NOT NULL,
     id_usuario INTEGER NOT NULL,
     tipo_usuario ENUM('Estudiante', 'Profesor') NOT NULL,
     id_replica INTEGER,
     fecha_envio TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id_mensaje, id_foro),
-    FOREIGN KEY (id_foro) REFERENCES Foro(id_foro)
+    PRIMARY KEY (id_mensaje), 
+    FOREIGN KEY (id_foro) REFERENCES Foro(id_foro) -- Now references Foro.id_foro (which is UNIQUE)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
-    FOREIGN KEY (id_replica) REFERENCES Mensaje(id_mensaje)
+    FOREIGN KEY (id_replica) REFERENCES Mensaje(id_mensaje) -- Self-referencing FK
         ON DELETE SET NULL
         ON UPDATE CASCADE,
     FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
@@ -99,7 +100,7 @@ CREATE TABLE Mensaje (
         ON UPDATE CASCADE
 );
 
-CREATE TABLE Material (
+CREATE TABLE IF NOT EXISTS Material (
     id_material INTEGER AUTO_INCREMENT,
     id_curso INTEGER,
     titulo VARCHAR(100) NOT NULL,
@@ -112,7 +113,7 @@ CREATE TABLE Material (
         ON UPDATE CASCADE
 );
 
-CREATE TABLE Pagos (
+CREATE TABLE IF NOT EXISTS Pagos (
     numero_matricula INTEGER AUTO_INCREMENT PRIMARY KEY,
     id_estudiante INTEGER NOT NULL,
     id_curso INTEGER NOT NULL,
@@ -126,7 +127,7 @@ CREATE TABLE Pagos (
         ON UPDATE CASCADE
 );
 
-CREATE TABLE interes_curso (
+CREATE TABLE IF NOT EXISTS interes_curso (
     id_profesor INTEGER,
     id_curso INTEGER,
     PRIMARY KEY (id_profesor, id_curso),
