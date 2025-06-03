@@ -122,9 +122,9 @@ El proyecto "Sistema de Gestión Académica NODO" es una aplicación diseñada p
   4. Ejecuta: `python App_Final.py`.
 - **Mini guía para el usuario**:
   1. **Inicio de sesión**: Ingresa tu email y contraseña. Ejemplo:
-- **Estudiante**: Ana María Gómez, `ana.gomez@eafit.edu.co`. Inscrita en el curso "Matemáticas I" (ID_CURSO: 1) para el semestre 2025-1. Puede listar sus cursos, consultar materiales, entregar tareas y participar en foros.
-- **Profesor**: Carlos Andrés López, `carlos.lopez@eafit.edu.co`. Asignado como profesor del curso "Matemáticas I" (ID_CURSO: 1) para el semestre 2025-1. Puede gestionar materiales, crear foros, calificar tareas y listar alumnos.
-- **Administrador**: Carlos Andrés López, `carlos.lopez@eafit.edu.co`. Asignado como profesor del curso "Matemáticas I" (ID_CURSO: 1) para el semestre 2025-1. Puede gestionar materiales, crear foros, calificar tareas y listar alumnos.
+      - **Estudiante**: Ana María Gómez, `ana.gomez@eafit.edu.co`. Inscrita en el curso "Matemáticas I" (ID_CURSO: 1) para el semestre 2025-1. Puede listar sus cursos, consultar materiales, entregar tareas y participar en foros.
+      - **Profesor**: Carlos Andrés López, `carlos.lopez@eafit.edu.co`. Asignado como profesor del curso "Matemáticas I" (ID_CURSO: 1) para el semestre 2025-1. Puede gestionar materiales, crear foros, calificar tareas y listar alumnos.
+      - **Administrador**: Carlos Andrés López, `carlos.lopez@eafit.edu.co`. Asignado como profesor del curso "Matemáticas I" (ID_CURSO: 1) para el semestre 2025-1. Puede gestionar materiales, crear foros, calificar tareas y listar alumnos.
   2. **Administrador**:
      - Matricula estudiantes seleccionando su ID y el ID del curso.
      - Asigna profesores a cursos.
