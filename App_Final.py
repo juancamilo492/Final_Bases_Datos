@@ -6,8 +6,8 @@ import decimal
 DB_CONFIG = {
     'host': 'localhost',
     'user': 'root',
-    'password': 'bruno123',
-    'database': 'NODO'
+    'password': 'Bruno123',
+    'database': 'nodo'
 }
 CURRENT_USER = None
 
