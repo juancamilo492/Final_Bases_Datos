@@ -14,11 +14,6 @@ GROUP BY u.id_usuario, u.nombre
 ORDER BY u.nombre ASC;
 
 
-SELECT c.id_profesor, u.nombre
-FROM Usuarios u
-JOIN Curso c ON u.id_usuario = c.id_profesor
-WHERE c.id_curso = 28;
-
 -- 2. Listar todos los estudiantes (nombre completo) de la base de datos de un curso determinado 
 -- para un año y semestre concreto.
 SELECT u.nombre
