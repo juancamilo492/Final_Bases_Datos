@@ -1,11 +1,9 @@
 # README.md
 
 # Info de la materia: SI2003-251, Bases de Datos, Universidad EAFIT
-**Estudiante(s):**  
-Juan Camilo Bolaños García, jcbolanosg@eafit.edu.co
+**Estudiante(s):** Juan Camilo Bolaños García, jcbolanosg@eafit.edu.co
 
-**Profesor:**  
-Edwin Nelson Montoya Munera, emontoya@eafit.edu.co
+**Profesor:** Edwin Nelson Montoya Munera, emontoya@eafit.edu.co
 
 
 # Sistema de Gestión Académica NODO
@@ -53,9 +51,9 @@ El proyecto "Sistema de Gestión Académica NODO" es una aplicación diseñada p
 
 # 3. Descripción del ambiente de desarrollo y técnico
 - **Lenguaje de programación**: Python 3.9 o superior.
-- **Base de datos**: MySQL 8.0.
+- **Base de datos**: MySQL 8.0 o superior (recomendado).
 - **Librerías y paquetes**:
-  - `mysql-connector-python==8.0.33` para la conexión con MySQL.
+  - `mysql-connector-python==8.0.33` (o la versión más reciente) para la conexión con MySQL.
   - Módulos estándar de Python: `os`, `datetime`, `decimal`.
 - **Cómo se compila y ejecuta**:
   1. Asegúrate de tener MySQL instalado y en ejecución.
@@ -63,10 +61,19 @@ El proyecto "Sistema de Gestión Académica NODO" es una aplicación diseñada p
   3. Pobla la base de datos ejecutando `proyecto_dml.sql`.
   4. Instala la librería `mysql-connector-python`:
      ```bash
-     pip install mysql-connector-python==8.0.33
+     pip install mysql-connector-python
      ```
-  5. Configura las credenciales de la base de datos en `App_Final.py` (variable `DB_CONFIG`).
-  6. Ejecuta la aplicación:
+     (Se recomienda usar la última versión disponible. Si especificaste `==8.0.33` y tienes problemas, prueba sin la versión específica para obtener la más reciente).
+  5. **Nota sobre autenticación en MySQL 8+**: Si al conectar desde Python encuentras un error como `Authentication plugin 'caching_sha2_password' is not supported`, puede deberse a que tu versión de `mysql-connector-python` no es compatible o necesita que el usuario de MySQL utilice un plugin de autenticación diferente.
+     * **Solución recomendada**: Asegúrate de tener la última versión de `mysql-connector-python` (ver paso anterior).
+     * **Alternativa (si la actualización del conector no es suficiente)**: Cambia el plugin de autenticación de tu usuario MySQL a `mysql_native_password`. Conéctate a MySQL como administrador y ejecuta:
+         ```sql
+         ALTER USER 'tu_usuario'@'localhost' IDENTIFIED WITH mysql_native_password BY 'tu_contraseña';
+         FLUSH PRIVILEGES;
+         ```
+         Reemplaza `'tu_usuario'` (ej. `'root'`) y `'tu_contraseña'` con tus credenciales. Si el plugin `mysql_native_password` no está cargado en tu servidor MySQL (error `Plugin 'mysql_native_password' is not loaded`), esta opción no funcionará y deberás enfocarte en asegurar la compatibilidad del conector con `caching_sha2_password` actualizándolo.
+  6. Configura las credenciales de la base de datos en `App_Final.py` (variable `DB_CONFIG`).
+  7. Ejecuta la aplicación:
      ```bash
      python App_Final.py
      ```
@@ -82,79 +89,72 @@ El proyecto "Sistema de Gestión Académica NODO" es una aplicación diseñada p
     ```python
     DB_CONFIG = {
         'host': 'localhost',
-        'user': 'root',
-        'password': 'bruno123',  # Reemplazar con la contraseña real
-        'database': 'NODO'
+        'user': 'root', # o tu usuario de MySQL
+        'password': 'Bruno123',  # Reemplazar con la contraseña real
+        'database': 'nodo'
     }
     ```
   - No se utilizan variables de entorno en esta versión, pero podrían añadirse para mayor seguridad.
 - **Estructura de directorios**:
-  ```
-  proyecto/
-  ├── App_Final.py           # Aplicación principal en Python
-  ├── proyecto_ddl.sql       # Script de creación de la base de datos
-  ├── proyecto_dml.sql       # Script de población de datos
-  ├── proyecto_query.sql     # Consultas SQL solicitadas
-  ```
-  *Nota: Ejecuta `tree` en Linux para obtener esta estructura si es necesario.*
 
+
+proyecto/
+├── App_Final.py # Aplicación principal en Python
+├── proyecto_ddl.sql # Script de creación de la base de datos
+├── proyecto_dml.sql # Script de población de datos
+├── proyecto_query.sql # Consultas SQL solicitadas
+└── README.md # Este archivo
 # 4. Descripción del ambiente de ejecución (en producción)
-- **Ambiente de ejecución**: Similar al de desarrollo (MySQL 8.0 y Python 3.9 en un servidor local o en la nube). En producción, se recomienda un servidor MySQL dedicado y un entorno Python con dependencias instaladas.
-- **Lenguaje y librerías**: Igual que en desarrollo (`mysql-connector-python==8.0.33`, Python estándar).
+- **Ambiente de ejecución**: Similar al de desarrollo (MySQL 8.0+ y Python 3.9+ en un servidor local o en la nube). En producción, se recomienda un servidor MySQL dedicado y un entorno Python con dependencias instaladas.
+- **Lenguaje y librerías**: Igual que en desarrollo (`mysql-connector-python`, Python estándar).
 - **IP o nombres de dominio**:
-  - En un entorno local: `localhost` (puerto predeterminado de MySQL: 3306).
-  - En producción: Configura la IP o dominio del servidor MySQL en `DB_CONFIG['host']`.
+- En un entorno local: `localhost` (puerto predeterminado de MySQL: 3306).
+- En producción: Configura la IP o dominio del servidor MySQL en `DB_CONFIG['host']`.
 - **Configuración de parámetros**:
-  - Configura `DB_CONFIG` en `App_Final.py` con las credenciales del servidor MySQL.
-  - Asegúrate de que el servidor MySQL permita conexiones remotas si no está en la misma máquina.
-  - Opcionalmente, usa variables de entorno para las credenciales:
-    ```bash
-    export DB_HOST='servidor.ejemplo.com'
-    export DB_USER='usuario'
-    export DB_PASSWORD='contraseña'
-    export DB_NAME='NODO'
-    ```
-  - Configura el puerto si no es el predeterminado (3306).
+- Configura `DB_CONFIG` en `App_Final.py` con las credenciales del servidor MySQL.
+- Asegúrate de que el servidor MySQL permita conexiones remotas si no está en la misma máquina.
+- Opcionalmente, usa variables de entorno para las credenciales.
+- Configura el puerto si no es el predeterminado (3306).
 - **Cómo se lanza el servidor**:
-  1. Asegúrate de que el servidor MySQL esté en ejecución.
-  2. Copia los archivos del proyecto al servidor.
-  3. Instala dependencias: `pip install mysql-connector-python==8.0.33`.
-  4. Ejecuta: `python App_Final.py`.
+1. Asegúrate de que el servidor MySQL esté en ejecución.
+2. Copia los archivos del proyecto al servidor.
+3. Instala dependencias: `pip install mysql-connector-python`.
+4. Ejecuta: `python App_Final.py`.
 - **Mini guía para el usuario**:
-  1. **Inicio de sesión**: Ingresa tu email y contraseña. Ejemplo:
-      - **Estudiante**: Ana María Gómez, correo: `elena.zapata@eafit.edu.co`, contraseña: `estpass17`
-      - **Profesor**: Natalia Pérez, correo: `natalia.perez@eafit.edu.co`, contraseña: `profpass17`
-      - **Administrador**: Carlos Pérez, `carlos.perez@eafit.edu.co`, contraseña: `adminpass1`
-  2. **Administrador**:
-     - Matricula estudiantes seleccionando su ID y el ID del curso.
-     - Asigna profesores a cursos.
-     - Genera reportes (cursos, usuarios, detalles de un curso).
-     - Simula roles de profesor/estudiante.
-  3. **Profesor**:
-     - Lista tus cursos (por ejemplo, "Matemáticas I") y selecciona uno.
-     - Sube materiales (título, descripción, URL ficticia).
-     - Crea foros y califica tareas.
-     - Participa en foros enviando mensajes o respuestas.
-  4. **Estudiante**:
-     - Lista tus cursos (por ejemplo, "Matemáticas I") y selecciona uno.
-     - Consulta materiales y tareas.
-     - Entrega tareas (nombre y formato de archivo simulados).
-     - Participa en foros enviando mensajes o respuestas.
-  5. **Cerrar sesión**: Selecciona la opción 0 en cualquier menú principal.
+1. **Inicio de sesión**: Ingresa tu email y contraseña. Ejemplo:
+    - **Estudiante**: Ana María Gómez, correo: `elena.zapata@eafit.edu.co`, contraseña: `estpass17`
+    - **Profesor**: Natalia Pérez, correo: `natalia.perez@eafit.edu.co`, contraseña: `profpass17`
+    - **Administrador**: Carlos Pérez, `carlos.perez@eafit.edu.co`, contraseña: `adminpass1`
+2. **Administrador**:
+   - Matricula estudiantes seleccionando su ID y el ID del curso.
+   - Asigna profesores a cursos.
+   - Genera reportes (cursos, usuarios, detalles de un curso).
+   - Simula roles de profesor/estudiante.
+3. **Profesor**:
+   - Lista tus cursos (por ejemplo, "Matemáticas I") y selecciona uno.
+   - Sube materiales (título, descripción, URL ficticia).
+   - Crea foros y califica tareas.
+   - Participa en foros enviando mensajes o respuestas.
+4. **Estudiante**:
+   - Lista tus cursos (por ejemplo, "Matemáticas I") y selecciona uno.
+   - Consulta materiales y tareas.
+   - Entrega tareas (nombre y formato de archivo simulados).
+   - Participa en foros enviando mensajes o respuestas.
+5. **Cerrar sesión**: Selecciona la opción 0 en cualquier menú principal.
 
 # 5. Otra información relevante
 - **Desafíos enfrentados**:
-  - Implementar una interfaz en consola que fuera clara y fácil de usar para todos los roles.
-  - Gestionar la integridad referencial en la base de datos, especialmente en tablas con claves compuestas (como Tarea, Foro, Tarea_Entrega).
-  - Validar entradas de usuario para evitar errores (por ejemplo, IDs no numéricos o fechas inválidas).
+- Implementar una interfaz en consola que fuera clara y fácil de usar para todos los roles.
+- Gestionar la integridad referencial en la base de datos, especialmente en tablas con claves compuestas (como Tarea, Foro, Tarea_Entrega).
+- Validar entradas de usuario para evitar errores (por ejemplo, IDs no numéricos o fechas inválidas).
 - **Limitaciones conocidas**:
-  - La aplicación no maneja la carga física de archivos; solo simula la subida con nombres/URLs.
-  - No hay autenticación segura (las contraseñas están en texto plano en la base de datos).
-  - Algunas consultas podrían optimizarse con índices para bases de datos grandes.
+- La aplicación no maneja la carga física de archivos; solo simula la subida con nombres/URLs.
+- No hay autenticación segura (las contraseñas están en texto plano en la base de datos).
+- Algunas consultas podrían optimizarse con índices para bases de datos grandes.
 - **Funcionalidades adicionales**:
-  - Consulta adicional en `proyecto_query.sql` para estadísticas de matriculación por curso.
-  - Interfaz tabular para mostrar datos de forma clara en la consola.
-  - Validación de entregas previas de tareas para evitar duplicados innecesarios.
+- Consulta adicional en `proyecto_query.sql` para estadísticas de matriculación por curso.
+- Interfaz tabular para mostrar datos de forma clara en la consola.
+- Validación de entregas previas de tareas para evitar duplicados innecesarios.
 
 # Referencias
 - Documentación oficial de MySQL: https://dev.mysql.com/doc/
@@ -163,3 +163,5 @@ El proyecto "Sistema de Gestión Académica NODO" es una aplicación diseñada p
 - Guía de mejores prácticas para consultas SQL seguras: https://www.sqlshack.com/how-to-prevent-sql-injection-in-mysql/
 - Documentación de Python sobre manejo de excepciones: https://docs.python.org/3/tutorial/errors.html
 - Stack Overflow (consultas específicas sobre `mysql-connector-python`): https://stackoverflow.com/questions/tagged/mysql-connector-python
+
+
