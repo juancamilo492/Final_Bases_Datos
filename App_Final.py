@@ -84,11 +84,11 @@ def mostrar_tabla(data, headers):
     if not isinstance(data, list):
         data = [data]
     if not data or not isinstance(data[0], dict):
-        if isinstance(data[0], dict) and all(h in data[0] for h in headers):
-            pass
-        else:
-            print("Formato de datos incorrecto para la tabla.")
-            return
+        # A minor adjustment to the check: ensure it's a list of dicts
+        # and if it's not empty, the first item is a dict.
+        # The all(h in data[0] for h in headers) check might be too strict if data[0] can be None or empty.
+        print("Formato de datos incorrecto para la tabla.")
+        return
     col_widths = {header: len(header) for header in headers}
     for row in data:
         for header in headers:
@@ -131,7 +131,11 @@ def cerrar_sesion():
 
 # Muestra el menú principal para usuarios con rol de administrador y gestiona sus acciones.
 def menu_administrador():
+    global CURRENT_USER
     while True:
+        if not CURRENT_USER or not CURRENT_USER.get('id_usuario') or CURRENT_USER.get('rol') != 'Administrador':
+            break
+
         limpiar_pantalla()
         print(f"--- Menú Administrador: {CURRENT_USER['nombre']} ---")
         print("1. Matricular Usuario a Curso")
@@ -154,8 +158,6 @@ def menu_administrador():
             pausar_pantalla()
             menu_profesor()
             CURRENT_USER = original_user
-            if not CURRENT_USER.get('id_usuario'):
-                break
         elif choice == '5':
             original_user = CURRENT_USER.copy()
             CURRENT_USER['rol'] = 'Estudiante'
@@ -163,14 +165,13 @@ def menu_administrador():
             pausar_pantalla()
             menu_estudiante()
             CURRENT_USER = original_user
-            if not CURRENT_USER.get('id_usuario'):
-                break
         elif choice == '0':
             cerrar_sesion()
-            break
+            break # Importante salir del bucle del menú después de cerrar sesión
         else:
             print("Opción no válida.")
-        if CURRENT_USER and CURRENT_USER.get('id_usuario'):
+
+        if CURRENT_USER and CURRENT_USER.get('id_usuario'): # Solo pausar si la sesión sigue activa
             pausar_pantalla()
 
 # Permite al administrador matricular un estudiante en un curso.
@@ -396,6 +397,7 @@ def reporte_listar_usuarios():
 
 # Lista los cursos asignados al usuario (estudiante o profesor).
 def listar_mis_cursos():
+    global CURRENT_USER
     limpiar_pantalla()
     print(f"--- Mis Cursos: {CURRENT_USER['nombre']} ---")
     query = ""
@@ -417,20 +419,24 @@ def listar_mis_cursos():
             ORDER BY c.nombre
         """
     else:
-        print("Rol no válido para esta función.")
-        return []
+        print(f"Rol '{CURRENT_USER['rol']}' no tiene 'Mis Cursos' directamente. Mostrando todos los cursos como referencia.")
+        query = "SELECT c.id_curso, c.nombre, c.categoria, u.nombre as profesor_nombre FROM Curso c LEFT JOIN Usuarios u ON c.id_profesor = u.id_usuario ORDER BY c.nombre"
+        params = ()
     cursos = ejecutar_consulta(query, params, fetch_all=True)
     if cursos:
         headers = ['id_curso', 'nombre', 'categoria']
-        if CURRENT_USER['rol'] == 'Estudiante':
+        if CURRENT_USER['rol'] == 'Estudiante' or (CURRENT_USER['rol'] != 'Profesor' and not params):
             headers.append('profesor_nombre')
         mostrar_tabla(cursos, headers)
     else:
-        print("No tienes cursos asignados o matriculados.")
+        if CURRENT_USER['rol'] != 'Administrador' or params : # Solo mostrar si no es admin viendo todos Y no hay cursos, o si es rol específico
+             print("No tienes cursos asignados o matriculados.")
     return cursos if cursos else []
+
 
 # Interfaz para que un estudiante entregue una tarea o vea su calificación.
 def entregar_tarea_interfaz(course_id):
+    global CURRENT_USER
     limpiar_pantalla()
     print(f"--- Entregar Tarea para el Curso (ID: {course_id}) ---")
     student_id = CURRENT_USER['id_usuario']
@@ -536,6 +542,7 @@ def calificar_tarea_interfaz(course_id):
             print(f"Entrada no válida: {e}")
         except decimal.InvalidOperation:
             print("Entrada no válida: Ingrese un número decimal para el puntaje.")
+
     update_query = "UPDATE Tarea_Entrega SET puntaje_obtenido = %s WHERE id_entrega = %s"
     if ejecutar_actualizacion(update_query, (score, entrega_id_to_grade)):
         print("Calificación asignada exitosamente.")
@@ -572,6 +579,7 @@ def listar_materiales_curso(course_id):
 
 # Muestra el menú de foros para un curso y permite gestionarlos.
 def menu_foros_curso(course_id, course_name):
+    global CURRENT_USER
     while True:
         limpiar_pantalla()
         print(f"--- Foros del Curso: {course_name} (ID: {course_id}) ---")
@@ -591,8 +599,9 @@ def menu_foros_curso(course_id, course_name):
         if choice == '1' and foros:
             try:
                 forum_id_to_view = int(input("Ingrese el ID del foro para ver mensajes: "))
-                if any(f['id_foro'] == forum_id_to_view for f in foros):
-                    ver_mensajes_foro(forum_id_to_view, course_id)
+                selected_forum = next((f for f in foros if f['id_foro'] == forum_id_to_view), None)
+                if selected_forum:
+                    ver_mensajes_foro(selected_forum['id_foro'], course_id)
                 else:
                     print("ID de foro no válido.")
             except ValueError:
@@ -601,10 +610,12 @@ def menu_foros_curso(course_id, course_name):
             break
         else:
             print("Opción no válida.")
-        pausar_pantalla()
+        if choice != '0':
+            pausar_pantalla()
 
 # Muestra los mensajes de un foro y permite enviar nuevos mensajes o respuestas.
 def ver_mensajes_foro(forum_id, course_id):
+    global CURRENT_USER
     while True:
         limpiar_pantalla()
         forum_info = ejecutar_consulta("SELECT nombre FROM Foro WHERE id_foro = %s AND id_curso = %s", (forum_id, course_id), fetch_one=True)
@@ -657,20 +668,24 @@ def ver_mensajes_foro(forum_id, course_id):
             break
         else:
             print("Opción no válida.")
-        pausar_pantalla()
+        if choice != '0':
+            pausar_pantalla()
 
 # Permite enviar un nuevo mensaje o responder a uno existente en un foro.
 def enviar_mensaje_foro(forum_id, replica_a_id=None):
+    global CURRENT_USER
     limpiar_pantalla()
     action = "Responder a Mensaje" if replica_a_id else "Enviar Nuevo Mensaje"
     print(f"--- {action} en Foro (ID: {forum_id}) ---")
     titulo = input("Título del mensaje: ")
     descripcion = input("Contenido del mensaje: ")
     tipo_usuario_mensaje = CURRENT_USER['rol']
+
     if tipo_usuario_mensaje not in ['Estudiante', 'Profesor']:
         print(f"Error: El rol '{tipo_usuario_mensaje}' no puede publicar mensajes directamente.")
-        print("Los administradores deben usar las funciones de profesor/estudiante para interactuar (simulación).")
+        print("Los administradores deben usar las funciones de profesor/estudiante simulado para interactuar.")
         return
+
     query = """
         INSERT INTO Mensaje (id_foro, nombre, descripcion, id_usuario, tipo_usuario, id_replica, fecha_envio)
         VALUES (%s, %s, %s, %s, %s, %s, NOW())
@@ -732,23 +747,27 @@ def crear_foro_curso(course_id):
             fecha_creacion = datetime.now().strftime('%Y-%m-%d')
             break
         try:
-            fecha_creacion = datetime.strptime(fecha_creacion_str, '%Y-%m-%d').strftime('%Y-%m-%d')
+            fecha_creacion_dt = datetime.strptime(fecha_creacion_str, '%Y-%m-%d')
+            fecha_creacion = fecha_creacion_dt.strftime('%Y-%m-%d')
             break
         except ValueError:
             print("Formato de fecha incorrecto. Use YYYY-MM-DD.")
     while True:
         fecha_fin_str = input("Fecha de finalización del foro (YYYY-MM-DD): ")
         try:
-            fecha_fin = datetime.strptime(fecha_fin_str, '%Y-%m-%d').strftime('%Y-%m-%d')
-            if fecha_fin < fecha_creacion:
+            fecha_fin_dt = datetime.strptime(fecha_fin_str, '%Y-%m-%d')
+            fecha_fin = fecha_fin_dt.strftime('%Y-%m-%d')
+            if datetime.strptime(fecha_fin, '%Y-%m-%d') < datetime.strptime(fecha_creacion, '%Y-%m-%d'):
                 print("La fecha de fin no puede ser anterior a la fecha de creación.")
             else:
                 break
         except ValueError:
             print("Formato de fecha incorrecto. Use YYYY-MM-DD.")
-    if not nombre or not fecha_fin_str:
+
+    if not nombre or not fecha_fin:
         print("Nombre del foro y fecha de finalización son obligatorios.")
         return
+
     query = """
         INSERT INTO Foro (id_curso, nombre, descripcion, fecha_creacion, fecha_fin)
         VALUES (%s, %s, %s, %s, %s)
@@ -761,77 +780,68 @@ def crear_foro_curso(course_id):
 
 # Muestra el menú de un curso específico con opciones según el rol del usuario.
 def ingresar_menu_curso(course_id, course_name):
+    global CURRENT_USER
     while True:
         limpiar_pantalla()
         print(f"--- Curso: {course_name} (ID: {course_id}) ---")
         print(f"--- Usuario: {CURRENT_USER['nombre']} ({CURRENT_USER['rol']}) ---")
-        menu_options = {
-            "1": "Listar Alumnos del Curso",
-            "2": "Listar Materiales del Curso",
-            "3": "Ver Foros del Curso",
-            "4": "Ver Tareas del Curso"
-        }
-        current_option_number = 4
+
+        menu_options = {}
+        current_option_key = 1
+
+        menu_options[str(current_option_key)] = "Listar Alumnos del Curso"; current_option_key +=1
+        menu_options[str(current_option_key)] = "Listar Materiales del Curso"; current_option_key +=1
+        menu_options[str(current_option_key)] = "Ver Foros del Curso"; current_option_key +=1
+        menu_options[str(current_option_key)] = "Ver Tareas del Curso"; current_option_key +=1
+
+        estudiante_options = {}
+        profesor_options = {}
+
         if CURRENT_USER['rol'] == 'Estudiante':
-            current_option_number += 1
-            menu_options[str(current_option_number)] = "Entregar/Ver calificación Tarea"
+            estudiante_options[str(current_option_key)] = "Entregar/Ver calificación Tarea"; current_option_key +=1
         if CURRENT_USER['rol'] == 'Profesor':
-            current_option_number += 1
-            menu_options[str(current_option_number)] = "Subir Material al Curso"
-            current_option_number += 1
-            menu_options[str(current_option_number)] = "Crear Foro en el Curso"
-            current_option_number += 1
-            menu_options[str(current_option_number)] = "Calificar Entregas de Tarea"
-        menu_options["0"] = "Salir del Curso (Volver a Mis Cursos)"
-        for key, value in menu_options.items():
-            print(f"{key}. {value}")
+            profesor_options[str(current_option_key)] = "Subir Material al Curso"; current_option_key +=1
+            profesor_options[str(current_option_key)] = "Crear Foro en el Curso"; current_option_key +=1
+            profesor_options[str(current_option_key)] = "Calificar Entregas de Tarea"; current_option_key +=1
+
+        for key, value in menu_options.items(): print(f"{key}. {value}")
+        if CURRENT_USER['rol'] == 'Estudiante':
+            for key, value in estudiante_options.items(): print(f"{key}. {value}")
+        if CURRENT_USER['rol'] == 'Profesor':
+            for key, value in profesor_options.items(): print(f"{key}. {value}")
+        print("0. Salir del Curso (Volver a Mis Cursos)")
+
         choice = input("Seleccione una opción: ")
-        action_taken = False
-        if choice == '1':
-            listar_alumnos_curso(course_id)
-            action_taken = True
-        elif choice == '2':
-            listar_materiales_curso(course_id)
-            action_taken = True
-        elif choice == '3':
-            menu_foros_curso(course_id, course_name)
-            action_taken = True
-        elif choice == '4':
-            listar_tareas_curso(course_id)
-            action_taken = True
-        elif choice == '0':
-            break
+        action_taken = False # Para decidir si pausar
+
+        if choice == '1': listar_alumnos_curso(course_id); action_taken = True
+        elif choice == '2': listar_materiales_curso(course_id); action_taken = True
+        elif choice == '3': menu_foros_curso(course_id, course_name); # Bucle interno, no pausar aquí
+        elif choice == '4': listar_tareas_curso(course_id); action_taken = True
+        elif choice == '0': break
+        elif CURRENT_USER['rol'] == 'Estudiante' and choice in estudiante_options:
+            if estudiante_options[choice] == "Entregar/Ver calificación Tarea":
+                entregar_tarea_interfaz(course_id); action_taken = True
+        elif CURRENT_USER['rol'] == 'Profesor' and choice in profesor_options:
+            if profesor_options[choice] == "Subir Material al Curso":
+                subir_material_curso(course_id); action_taken = True
+            elif profesor_options[choice] == "Crear Foro en el Curso":
+                crear_foro_curso(course_id); action_taken = True
+            elif profesor_options[choice] == "Calificar Entregas de Tarea":
+                calificar_tarea_interfaz(course_id); action_taken = True
         else:
-            temp_option_number = 4
-            if CURRENT_USER['rol'] == 'Estudiante':
-                temp_option_number += 1
-                if choice == str(temp_option_number):
-                    entregar_tarea_interfaz(course_id)
-                    action_taken = True
-            elif CURRENT_USER['rol'] == 'Profesor':
-                temp_option_number += 1
-                if choice == str(temp_option_number):
-                    subir_material_curso(course_id)
-                    action_taken = True
-                else:
-                    temp_option_number += 1
-                    if choice == str(temp_option_number):
-                        crear_foro_curso(course_id)
-                        action_taken = True
-                    else:
-                        temp_option_number += 1
-                        if choice == str(temp_option_number):
-                            calificar_tarea_interfaz(course_id)
-                            action_taken = True
-            if not action_taken:
-                print("Opción no válida.")
-        if action_taken or choice != '0':
+            print("Opción no válida.")
+            action_taken = True # Pausar para que el usuario vea el mensaje
+
+        if action_taken: # Solo pausar si se realizó una acción que no sea un submenú o salir
             pausar_pantalla()
+
 
 # Muestra el menú principal para profesores y gestiona sus acciones.
 def menu_profesor():
+    global CURRENT_USER
     while True:
-        if not CURRENT_USER or CURRENT_USER.get('rol') != 'Profesor':
+        if not CURRENT_USER or not CURRENT_USER.get('id_usuario') or CURRENT_USER.get('rol') != 'Profesor':
             break
         limpiar_pantalla()
         print(f"--- Menú Profesor: {CURRENT_USER['nombre']} ---")
@@ -851,20 +861,24 @@ def menu_profesor():
                         ingresar_menu_curso(selected_course['id_curso'], selected_course['nombre'])
                     else:
                         print("ID de curso no válido.")
+                        pausar_pantalla()
                 except ValueError:
                     print("Entrada no válida.")
-                pausar_pantalla()
+                    pausar_pantalla()
+            else:
+                 pausar_pantalla()
         elif choice == '0':
             cerrar_sesion()
-            break
+            # El chequeo al inicio del bucle se encargará de salir
         else:
             print("Opción no válida.")
             pausar_pantalla()
 
 # Muestra el menú principal para estudiantes y gestiona sus acciones.
 def menu_estudiante():
+    global CURRENT_USER
     while True:
-        if not CURRENT_USER or CURRENT_USER.get('rol') != 'Estudiante':
+        if not CURRENT_USER or not CURRENT_USER.get('id_usuario') or CURRENT_USER.get('rol') != 'Estudiante':
             break
         limpiar_pantalla()
         print(f"--- Menú Estudiante: {CURRENT_USER['nombre']} ---")
@@ -884,12 +898,14 @@ def menu_estudiante():
                         ingresar_menu_curso(selected_course['id_curso'], selected_course['nombre'])
                     else:
                         print("ID de curso no válido.")
+                        pausar_pantalla()
                 except ValueError:
                     print("Entrada no válida.")
+                    pausar_pantalla()
+            else:
                 pausar_pantalla()
         elif choice == '0':
             cerrar_sesion()
-            break
         else:
             print("Opción no válida.")
             pausar_pantalla()
@@ -907,6 +923,7 @@ def main():
     conn_test.close()
     print("Conexión a la base de datos exitosa.")
     pausar_pantalla()
+
     while True:
         if not CURRENT_USER or not CURRENT_USER.get('id_usuario'):
             if not iniciar_sesion():
@@ -915,9 +932,11 @@ def main():
                     break
                 continue
             pausar_pantalla()
-        if not CURRENT_USER or not CURRENT_USER.get('rol'):
-            print("Error de usuario. Saliendo.")
+
+        if not CURRENT_USER or not CURRENT_USER.get('id_usuario'): # Re-check after potential login
+            print("No se pudo iniciar sesión. Saliendo.")
             break
+
         user_role = CURRENT_USER.get('rol')
         if user_role == 'Administrador':
             menu_administrador()
@@ -928,8 +947,7 @@ def main():
         else:
             print(f"Rol de usuario desconocido: {user_role}. Cerrando sesión.")
             cerrar_sesion()
-        if not CURRENT_USER or not CURRENT_USER.get('id_usuario'):
-            pass
+
     print("\nGracias por usar la aplicación NODO. ¡Hasta pronto!")
 
 if __name__ == "__main__":
