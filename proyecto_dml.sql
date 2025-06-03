@@ -101,10 +101,8 @@ INSERT INTO Usuarios (email, n_documento, nombre, genero, telefono, contrasenia,
 ('diego.torres@eafit.edu.co', '1045678960', 'Diego Torres', 'M', '3101234637', 'estpass60', 'Estudiante', NULL, NULL);
 
 
-
 -- CURSOS
 INSERT INTO Curso (url, nombre, semestre, fecha_inicio, fecha_fin, categoria, anio, precio, id_profesor) VALUES
--- Semestre 2025-2
 ('http://eafit.edu.co/cursos/matematicas-basicas', 'Matemáticas Básicas', '2', '2025-07-01', '2025-12-15', 'Matemáticas', 2025, 500000.00, 21),
 ('http://eafit.edu.co/cursos/programacion-i', 'Programación I', '2', '2025-07-01', '2025-12-15', 'Informática', 2025, 600000.00, 22),
 ('http://eafit.edu.co/cursos/historia-universal', 'Historia Universal', '2', '2025-07-01', '2025-12-15', 'Humanidades', 2025, 450000.00, 23),
@@ -114,30 +112,27 @@ INSERT INTO Curso (url, nombre, semestre, fecha_inicio, fecha_fin, categoria, an
 ('http://eafit.edu.co/cursos/algoritmos-avanzados', 'Algoritmos Avanzados', '2', '2025-07-01', '2025-12-15', 'Informática', 2025, 680000.00, 27),
 ('http://eafit.edu.co/cursos/fisica-cuantica', 'Física Cuántica', '2', '2025-07-01', '2025-12-15', 'Ciencias', 2025, 700000.00, 28),
 ('http://eafit.edu.co/cursos/calculo-multivariable', 'Cálculo Multivariable', '2', '2025-07-01', '2025-12-15', 'Matemáticas', 2025, 580000.00, 29),
-('http://eafit.edu.co/cursos/redes-de-computadores', 'Redes de Computadores', '2', '2025-07-01', '2025-12-15', 'Informática', 2025, 630000.00, 30),
--- Semestre 2026-1
-('http://eafit.edu.co/cursos/historia-de-america', 'Historia de América', '1', '2026-02-01', '2026-06-30', 'Humanidades', 2026, 450000.00, 31),
-('http://eafit.edu.co/cursos/programacion-ii', 'Programación II', '1', '2026-02-01', '2026-06-30', 'Informática', 2026, 620000.00, 32),
-('http://eafit.edu.co/cursos/quimica-organica', 'Química Orgánica', '1', '2026-02-01', '2026-06-30', 'Ciencias', 2026, 540000.00, 33),
-('http://eafit.edu.co/cursos/literatura-clasica', 'Literatura Clásica', '1', '2026-02-01', '2026-06-30', 'Humanidades', 2026, 470000.00, 34),
-('http://eafit.edu.co/cursos/estadistica-aplicada', 'Estadística Aplicada', '1', '2026-02-01', '2026-06-30', 'Matemáticas', 2026, 590000.00, 35),
-('http://eafit.edu.co/cursos/geografia-fisica', 'Geografía Física', '1', '2026-02-01', '2026-06-30', 'Humanidades', 2026, 460000.00, 36),
-('http://eafit.edu.co/cursos/inteligencia-artificial', 'Inteligencia Artificial', '1', '2026-02-01', '2026-06-30', 'Informática', 2026, 720000.00, 37),
-('http://eafit.edu.co/cursos/bioquimica', 'Bioquímica', '1', '2026-02-01', '2026-06-30', 'Ciencias', 2026, 570000.00, 38),
-('http://eafit.edu.co/cursos/calculo-diferencial', 'Cálculo Diferencial', '1', '2026-02-01', '2026-06-30', 'Matemáticas', 2026, 570000.00, 39),
-('http://eafit.edu.co/cursos/sistemas-operativos', 'Sistemas Operativos', '1', '2026-02-01', '2026-06-30', 'Informática', 2026, 670000.00, 40),
--- Semestre 2026-2
-('http://eafit.edu.co/cursos/quimica-inorganica', 'Química Inorgánica', '2', '2026-07-01', '2026-12-15', 'Ciencias', 2026, 550000.00, 41),
-('http://eafit.edu.co/cursos/antropologia-cultural', 'Antropología Cultural', '2', '2026-07-01', '2026-12-15', 'Humanidades', 2026, 460000.00, 42),
-('http://eafit.edu.co/cursos/mecanica-clasica', 'Mecánica Clásica', '2', '2026-07-01', '2026-12-15', 'Ciencias', 2026, 600000.00, 43),
-('http://eafit.edu.co/cursos/ecologia', 'Ecología', '2', '2026-07-01', '2026-12-15', 'Ciencias', 2026, 530000.00, 44),
-('http://eafit.edu.co/cursos/filosofia-moderna', 'Filosofía Moderna', '2', '2026-07-01', '2026-12-15', 'Humanidades', 2026, 470000.00, 45),
+('http://eafit.edu.co/cursos/redes-de-computadores', 'Redes de Computadores', '2', '2025-07-01', '2025-12-15', 'Informática', 2025, 630000.00, 5),
+('http://eafit.edu.co/cursos/historia-de-america', 'Historia de América', '1', '2026-02-01', '2026-06-30', 'Humanidades', 2026, 450000.00, 6),
+('http://eafit.edu.co/cursos/programacion-ii', 'Programación II', '1', '2026-02-01', '2026-06-30', 'Informática', 2026, 620000.00, 7),
+('http://eafit.edu.co/cursos/quimica-organica', 'Química Orgánica', '1', '2026-02-01', '2026-06-30', 'Ciencias', 2026, 540000.00, 8),
+('http://eafit.edu.co/cursos/literatura-clasica', 'Literatura Clásica', '1', '2026-02-01', '2026-06-30', 'Humanidades', 2026, 470000.00, 9),
+('http://eafit.edu.co/cursos/estadistica-aplicada', 'Estadística Aplicada', '1', '2026-02-01', '2026-06-30', 'Matemáticas', 2026, 590000.00, 10),
+('http://eafit.edu.co/cursos/geografia-fisica', 'Geografía Física', '1', '2026-02-01', '2026-06-30', 'Humanidades', 2026, 460000.00, 11),
+('http://eafit.edu.co/cursos/inteligencia-artificial', 'Inteligencia Artificial', '1', '2026-02-01', '2026-06-30', 'Informática', 2026, 720000.00, 12),
+('http://eafit.edu.co/cursos/bioquimica', 'Bioquímica', '1', '2026-02-01', '2026-06-30', 'Ciencias', 2026, 570000.00, 13),
+('http://eafit.edu.co/cursos/calculo-diferencial', 'Cálculo Diferencial', '1', '2026-02-01', '2026-06-30', 'Matemáticas', 2026, 570000.00, 14),
+('http://eafit.edu.co/cursos/sistemas-operativos', 'Sistemas Operativos', '1', '2026-02-01', '2026-06-30', 'Informática', 2026, 670000.00, 15),
+('http://eafit.edu.co/cursos/quimica-inorganica', 'Química Inorgánica', '2', '2026-07-01', '2026-12-15', 'Ciencias', 2026, 550000.00, 16),
+('http://eafit.edu.co/cursos/antropologia-cultural', 'Antropología Cultural', '2', '2026-07-01', '2026-12-15', 'Humanidades', 2026, 460000.00, 17),
+('http://eafit.edu.co/cursos/mecanica-clasica', 'Mecánica Clásica', '2', '2026-07-01', '2026-12-15', 'Ciencias', 2026, 600000.00, 18),
+('http://eafit.edu.co/cursos/ecologia', 'Ecología', '2', '2026-07-01', '2026-12-15', 'Ciencias', 2026, 530000.00, 19),
+('http://eafit.edu.co/cursos/filosofia-moderna', 'Filosofía Moderna', '2', '2026-07-01', '2026-12-15', 'Humanidades', 2026, 470000.00, 20),
 ('http://eafit.edu.co/cursos/ingenieria-software', 'Ingeniería de Software', '2', '2026-07-01', '2026-12-15', 'Informática', 2026, 690000.00, 22),
 ('http://eafit.edu.co/cursos/algebra-lineal', 'Álgebra Lineal', '2', '2026-07-01', '2026-12-15', 'Matemáticas', 2026, 560000.00, 21),
 ('http://eafit.edu.co/cursos/sociologia-urbana', 'Sociología Urbana', '2', '2026-07-01', '2026-12-15', 'Humanidades', 2026, 480000.00, 23),
 ('http://eafit.edu.co/cursos/astrofisica', 'Astrofísica', '2', '2026-07-01', '2026-12-15', 'Ciencias', 2026, 710000.00, 24),
-('http://eafit.edu.co/cursos/etica', 'Ética', '2', '2026-07-01', '2026-12-15', 'Humanidades', 2026, 450000.00, 45);
-
+('http://eafit.edu.co/cursos/etica', 'Ética', '2', '2026-07-01', '2026-12-15', 'Humanidades', 2026, 450000.00, 20);
 
 
 -- TAREAS ASGINADAS
@@ -179,7 +174,6 @@ INSERT INTO Tarea (id_curso, nombre, descripcion, fecha_limite, nombre_archivo, 
 (30, 'Tarea 30.1', 'Dilemas éticos', '2025-06-20', 'tarea30_1.doc', 'doc');
 
 
-
 -- MATERIALES SUBIDOS
 INSERT INTO Material (id_curso, titulo, descripcion, formato_archivo, nombre_archivo) VALUES
 (1, 'Notas Matemáticas 1', 'Conceptos básicos de álgebra', 'pdf', 'notas_mat1.pdf'),
@@ -219,7 +213,6 @@ INSERT INTO Material (id_curso, titulo, descripcion, formato_archivo, nombre_arc
 (30, 'Textos Éticos', 'Dilemas y teorías éticas', 'pdf', 'textos_eticos.pdf');
 
 
-
 -- FOROS CREADOS
 INSERT INTO Foro (id_curso, nombre, descripcion, fecha_creacion, fecha_fin) VALUES
 (1, 'Foro Matemáticas', 'Discusión sobre temas matemáticos', '2025-05-15', '2025-10-15'),
@@ -254,7 +247,6 @@ INSERT INTO Foro (id_curso, nombre, descripcion, fecha_creacion, fecha_fin) VALU
 (30, 'Foro Ética', 'Debates sobre dilemas éticos', '2025-05-15', '2025-10-15');
 
 
-
 -- MENSAJES Y RESPUESTAS ENVIADAS
 INSERT INTO Mensaje (id_foro, nombre, descripcion, id_usuario, tipo_usuario, id_replica) VALUES
 (1, 'Duda sobre logaritmos', 'No entiendo cómo resolver ecuaciones logarítmicas', 46, 'Estudiante', NULL),
@@ -276,32 +268,33 @@ INSERT INTO Mensaje (id_foro, nombre, descripcion, id_usuario, tipo_usuario, id_
 (9, 'Integración por partes', '¿Cuándo aplicarla?', 54, 'Estudiante', NULL),
 (9, 'Respuesta: integración', 'Cuando tienes producto de funciones', 29, 'Profesor', 17),
 (10, 'Configuración router', '¿Cómo configuro NAT?', 55, 'Estudiante', NULL),
-(10, 'Respuesta: NAT', 'Configura reglas en el router', 30, 'Profesor', 19),
-(13, 'Esterificación', '¿Qué catalizadores se usan?', 56, 'Estudiante', NULL),
-(13, 'Respuesta: esterificación', 'Ácido sulfúrico comúnmente', 33, 'Profesor', 21),
-(14, 'Análisis Iliada', '¿Temas principales?', 57, 'Estudiante', NULL),
-(14, 'Temas Iliada', 'Honor, destino y guerra', 34, 'Profesor', 23),
-(15, 'Distribución normal', '¿Cálculo de probabilidad?', 58, 'Estudiante', NULL),
-(15, 'Respuesta: distribución', 'Usa función de densidad', 35, 'Profesor', 25),
-(16, 'Cambio climático', '¿Impacto en ecosistemas?', 59, 'Estudiante', NULL),
-(16, 'Respuesta: ecosistemas', 'Afecta biodiversidad', 36, 'Profesor', 27),
-(17, 'Overfitting', '¿Qué es el overfitting?', 60, 'Estudiante', NULL),
-(17, 'Explicación: overfitting', 'Modelo se ajusta demasiado a datos', 37, 'Profesor', 29),
-(18, 'Enzimas metabolismo', '¿Cómo funcionan?', 61, 'Estudiante', NULL),
-(18, 'Respuesta: enzimas', 'Catalizadores biológicos', 38, 'Profesor', 31),
-(19, 'Derivadas parciales', '¿Aplicación en optimización?', 62, 'Estudiante', NULL),
-(20, 'Deadlock', '¿Qué es un deadlock?', 63, 'Estudiante', NULL),
-(21, 'Compuestos inorgánicos', '¿Cuáles son comunes?', 64, 'Estudiante', NULL),
-(22, 'Rol mujeres indígenas', '¿Qué rol jugaron?', 65, 'Estudiante', NULL),
-(23, 'Ley de Newton', '¿Sistemas no inerciales?', 66, 'Estudiante', NULL),
-(24, 'Biodiversidad', '¿Cómo medirla?', 67, 'Estudiante', NULL),
-(25, 'Empirismo', '¿Críticas principales?', 68, 'Estudiante', NULL),
-(26, 'Metodologías ágiles', '¿Ventajas de Scrum?', 69, 'Estudiante', NULL),
-(27, 'Sistemas lineales', '¿Cómo resolver matrices?', 70, 'Estudiante', NULL),
-(28, 'Urbanización', '¿Impacto social?', 71, 'Estudiante', NULL),
-(29, 'Espectros estelares', '¿Cómo analizarlos?', 72, 'Estudiante', NULL),
-(30, 'Dilemas éticos', '¿Cómo abordarlos?', 73, 'Estudiante', NULL);
-
+(10, 'Respuesta: NAT', 'Configura reglas en el router', 5, 'Profesor', 19),
+(13, 'Esterificación', '¿Qué catalizadores se usan?', 57, 'Estudiante', NULL),
+(13, 'Respuesta: esterificación', 'Ácido sulfúrico comúnmente', 8, 'Profesor', 21),
+(14, 'Análisis Iliada', '¿Temas principales?', 58, 'Estudiante', NULL),
+(14, 'Temas Iliada', 'Honor, destino y guerra', 9, 'Profesor', 23),
+(15, 'Distribución normal', '¿Cálculo de probabilidad?', 59, 'Estudiante', NULL),
+(15, 'Respuesta: distribución', 'Usa función de densidad', 10, 'Profesor', 25),
+(16, 'Cambio climático', '¿Impacto en ecosistemas?', 60, 'Estudiante', NULL),
+(16, 'Respuesta: ecosistemas', 'Afecta biodiversidad', 11, 'Profesor', 27),
+(17, 'Overfitting', '¿Qué es el overfitting?', 61, 'Estudiante', NULL),
+(17, 'Explicación: overfitting', 'Modelo se ajusta demasiado a datos', 12, 'Profesor', 29),
+(18, 'Enzimas metabolismo', '¿Cómo funcionan?', 62, 'Estudiante', NULL),
+(18, 'Respuesta: enzimas', 'Catalizadores biológicos', 13, 'Profesor', 31),
+(19, 'Derivadas parciales', '¿Aplicación en optimización?', 63, 'Estudiante', NULL),
+(19, 'Respuesta: Derivadas Parciales', 'Se usan para encontrar máximos y mínimos en funciones multivariables.', 14, 'Profesor', 33),
+(20, 'Deadlock', '¿Qué es un deadlock?', 64, 'Estudiante', NULL),
+(20, 'Respuesta: Deadlock', 'Es una situación donde dos o más procesos esperan por recursos que tienen los otros.', 15, 'Profesor', 34),
+(21, 'Compuestos inorgánicos', '¿Cuáles son comunes?', 65, 'Estudiante', NULL),
+(22, 'Rol mujeres indígenas', '¿Qué rol jugaron?', 66, 'Estudiante', NULL),
+(23, 'Ley de Newton', '¿Sistemas no inerciales?', 67, 'Estudiante', NULL),
+(24, 'Biodiversidad', '¿Cómo medirla?', 68, 'Estudiante', NULL),
+(25, 'Empirismo', '¿Críticas principales?', 69, 'Estudiante', NULL),
+(26, 'Metodologías ágiles', '¿Ventajas de Scrum?', 70, 'Estudiante', NULL),
+(27, 'Sistemas lineales', '¿Cómo resolver matrices?', 71, 'Estudiante', NULL),
+(28, 'Urbanización', '¿Impacto social?', 72, 'Estudiante', NULL),
+(29, 'Espectros estelares', '¿Cómo analizarlos?', 73, 'Estudiante', NULL),
+(30, 'Dilemas éticos', '¿Cómo abordarlos?', 74, 'Estudiante', NULL);
 
 
 -- ESTUDIANTES INSCRITOS A UN CURSO
@@ -318,27 +311,27 @@ INSERT INTO Pagos (id_estudiante, id_curso) VALUES
 -- INTERESES DE PROFESORES EN CURSOS
 INSERT INTO interes_curso (id_profesor, id_curso) VALUES
 (21, 2), (21, 5), (22, 1), (22, 4), (23, 1), (23, 4), (24, 1), (24, 9), (25, 2), (25, 4),
-(26, 1), (26, 8), (27, 6), (27, 18), (28, 3), (28, 11), (29, 1), (29, 9), (30, 3), (30, 11),
-(31, 15), (32, 17), (33, 6), (33, 18), (34, 3), (34, 11), (35, 4), (35, 8), (36, 6), (36, 24),
-(37, 14), (37, 25), (38, 15), (38, 19), (39, 3), (39, 16), (40, 2), (40, 10), (41, 13), (41, 18),
-(42, 11), (42, 14), (43, 8), (43, 23), (44, 6), (44, 24), (45, 14), (45, 25);
+(26, 1), (26, 8), (27, 6), (27, 18), (28, 3), (28, 11), (29, 1), (29, 9), (5, 3), (5, 11),
+(6, 15), (7, 17), (8, 6), (8, 18), (9, 3), (9, 11), (10, 4), (10, 8), (11, 6), (11, 24),
+(12, 14), (12, 25), (13, 15), (13, 19), (14, 3), (14, 16), (15, 2), (15, 10), (16, 13), (16, 18),
+(17, 11), (17, 14), (18, 8), (18, 23), (19, 6), (19, 24), (20, 14), (20, 25);
 
 
 -- ENTREGA DE TAREAS
 INSERT INTO Tarea_Entrega (id_tarea, id_curso, id_estudiante, nombre_archivo, formato_archivo, puntaje_obtenido) VALUES
 (1, 1, 46, 'tarea1_1_maria_rodriguez.pdf', 'pdf', 4.50),
-(1, 1, 48, 'tarea1_1_lucia_martinez.pdf', 'pdf', NULL),
-(1, 1, 50, 'tarea1_1_diego_sanchez.pdf', 'pdf', 4.85),
+(1, 1, 75, 'tarea1_1_lucia_martinez.pdf', 'pdf', NULL),
+(1, 1, 46, 'tarea1_1_diego_sanchez.pdf', 'pdf', 4.85),
 (2, 1, 46, 'tarea1_2_maria_rodriguez.pdf', 'pdf', 4.20),
 (3, 2, 47, 'tarea2_1_jose_garcia.py', 'py', 4.80),
-(3, 2, 49, 'tarea2_1_camila_diaz.py', 'py', NULL),
+(3, 2, 46, 'tarea2_1_camila_diaz.py', 'py', NULL),
 (4, 2, 47, 'tarea2_2_jose_garcia.py', 'py', 4.90),
 (5, 3, 48, 'tarea3_1_andres_lopez.doc', 'doc', 4.30),
-(6, 3, 50, 'tarea3_2_sofia_hernandez.doc', 'doc', 4.60),
+(6, 3, 47, 'tarea3_2_sofia_hernandez.doc', 'doc', 4.60),
 (7, 4, 49, 'tarea4_1_diego_sanchez.pdf', 'pdf', 4.70),
-(8, 4, 51, 'tarea4_2_camila_diaz.pdf', 'pdf', NULL),
+(8, 4, 48, 'tarea4_2_camila_diaz.pdf', 'pdf', NULL),
 (9, 5, 50, 'tarea5_1_javier_ruiz.sql', 'sql', 4.90),
-(10, 5, 52, 'tarea5_2_valeria_perez.sql', 'sql', 4.80),
+(10, 5, 49, 'tarea5_2_valeria_perez.sql', 'sql', 4.80),
 (11, 6, 51, 'tarea6_1_felipe_gomez.pdf', 'pdf', 4.50),
 (12, 7, 52, 'tarea7_1_isabela_torres.py', 'py', 4.95),
 (13, 8, 53, 'tarea8_1_mateo_vargas.pdf', 'pdf', 4.60),
